@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wyu160802.dao.EmployeeDao">
+  <resultMap id="BaseResultMap" type="com.wyu160802.entity.Employee">
+    <!--@mbg.generated-->
+    <!--@Table employee-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="dept_id" jdbcType="INTEGER" property="deptId" />
+    <result column="job_id" jdbcType="INTEGER" property="jobId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="card_id" jdbcType="VARCHAR" property="cardId" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="post_code" jdbcType="VARCHAR" property="postCode" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="qq_num" jdbcType="VARCHAR" property="qqNum" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="party" jdbcType="VARCHAR" property="party" />
+    <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
+    <result column="race" jdbcType="VARCHAR" property="race" />
+    <result column="education" jdbcType="VARCHAR" property="education" />
+    <result column="speciality" jdbcType="VARCHAR" property="speciality" />
+    <result column="hobby" jdbcType="VARCHAR" property="hobby" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, dept_id, job_id, `name`, card_id, address, post_code, phone, qq_num, email, sex, 
+    party, birthday, race, education, speciality, hobby, remark, create_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from employee
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="getAll" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from employee
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from employee
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.wyu160802.entity.Employee" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into employee (dept_id, job_id, `name`, 
+      card_id, address, post_code, 
+      phone, qq_num, email, 
+      sex, party, birthday, 
+      race, education, speciality, 
+      hobby, remark, create_date
+      )
+    values (#{deptId,jdbcType=INTEGER}, #{jobId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{cardId,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{postCode,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{qqNum,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=INTEGER}, #{party,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, 
+      #{race,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, #{speciality,jdbcType=VARCHAR}, 
+      #{hobby,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.wyu160802.entity.Employee" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into employee
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="deptId != null">
+        dept_id,
+      </if>
+      <if test="jobId != null">
+        job_id,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="cardId != null">
+        card_id,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="postCode != null">
+        post_code,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="qqNum != null">
+        qq_num,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="party != null">
+        party,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="race != null">
+        race,
+      </if>
+      <if test="education != null">
+        education,
+      </if>
+      <if test="speciality != null">
+        speciality,
+      </if>
+      <if test="hobby != null">
+        hobby,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="deptId != null">
+        #{deptId,jdbcType=INTEGER},
+      </if>
+      <if test="jobId != null">
+        #{jobId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cardId != null">
+        #{cardId,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null">
+        #{postCode,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="qqNum != null">
+        #{qqNum,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="party != null">
+        #{party,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="race != null">
+        #{race,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null">
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="speciality != null">
+        #{speciality,jdbcType=VARCHAR},
+      </if>
+      <if test="hobby != null">
+        #{hobby,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wyu160802.entity.Employee">
+    <!--@mbg.generated-->
+    update employee
+    <set>
+      <if test="deptId != null">
+        dept_id = #{deptId,jdbcType=INTEGER},
+      </if>
+      <if test="jobId != null">
+        job_id = #{jobId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cardId != null">
+        card_id = #{cardId,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null">
+        post_code = #{postCode,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="qqNum != null">
+        qq_num = #{qqNum,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="party != null">
+        party = #{party,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="race != null">
+        race = #{race,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null">
+        education = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="speciality != null">
+        speciality = #{speciality,jdbcType=VARCHAR},
+      </if>
+      <if test="hobby != null">
+        hobby = #{hobby,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wyu160802.entity.Employee">
+    <!--@mbg.generated-->
+    update employee
+    set dept_id = #{deptId,jdbcType=INTEGER},
+      job_id = #{jobId,jdbcType=INTEGER},
+      `name` = #{name,jdbcType=VARCHAR},
+      card_id = #{cardId,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      post_code = #{postCode,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      qq_num = #{qqNum,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      party = #{party,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=TIMESTAMP},
+      race = #{race,jdbcType=VARCHAR},
+      education = #{education,jdbcType=VARCHAR},
+      speciality = #{speciality,jdbcType=VARCHAR},
+      hobby = #{hobby,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="queryEmpDto" resultType="com.wyu160802.entity.EmployeeDto">
+        SELECT
+          a.id,a.dept_id,a.job_id,a.name,a.card_id,a.address,a.post_code,
+          a.phone,a.qq_num,a.email,a.sex,a.party,a.birthday,a.race,a.education,
+          a.speciality,a.hobby,a.remark,a.create_date,
+          b.name AS deptName,
+          c.name AS jobName,
+		  (
+            CASE a.sex
+            WHEN 1 THEN
+                '男'
+            WHEN 2 THEN
+                '女'
+            END
+          ) gender
+        FROM
+	        employee a
+            LEFT JOIN dept b ON a.dept_id = b.id
+            LEFT JOIN job c ON a.job_id = c.id
+    </select>
+
+  <select id="queryEmpDtoById" parameterType="Integer" resultType="com.wyu160802.entity.EmployeeDto">
+    SELECT
+    a.id,a.dept_id,a.job_id,a.name,a.card_id,a.address,a.post_code,
+    a.phone,a.qq_num,a.email,a.sex,a.party,a.birthday,a.race,a.education,
+    a.speciality,a.hobby,a.remark,a.create_date,
+    b.name AS deptName,
+    c.name AS jobName,
+    (
+    CASE a.sex
+    WHEN 1 THEN
+    '男'
+    WHEN 2 THEN
+    '女'
+    END
+    ) gender
+    FROM
+    employee a
+    LEFT JOIN dept b ON a.dept_id = b.id
+    LEFT JOIN job c ON a.job_id = c.id
+    WHERE a.id=#{id}
+  </select>
+</mapper>
