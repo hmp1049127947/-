@@ -3,6 +3,7 @@ package com.wyu160802.service.impl;
 import com.wyu160802.base.BaseServiceImpl;
 import com.wyu160802.dto.BaseResult;
 import com.wyu160802.entity.UserPageDto;
+import com.wyu160802.utils.BeanValidator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
@@ -46,41 +47,27 @@ public class UserServiceImpl extends BaseServiceImpl<User,UserDao> implements Us
 
     @Override
     public BaseResult add(User user) {
-        BaseResult baseResult = checkUserData(user);
-        //数据验证成功
-        if (baseResult.status == BaseResult.STATUS_SUCCESS) {
-            dao.insert(user);
-            baseResult.setMessage("数据插入成功");
-            return baseResult;
+        String validator = BeanValidator.validator(user);
+        if (validator != null) {
+            //验证不通过，返回验证错误信息
+            return BaseResult.fail(validator);
         } else {
-            return baseResult;
+            //验证通过
+            dao.insert(user);
+            return BaseResult.success("保存成功");
         }
     }
-
-    @Override
-    public List<User> page(int leftArg, int rightArg) {
-        return dao.queryPageUsers(leftArg,rightArg);
-    }
-
-    @Override
-    public int queryUserTotal() {
-        return dao.queryUserTotal();
-    }
-
     @Override
     public void deleteMulti(String[] id) {
         dao.deleteMulti(id);
     }
 
     @Override
-    public List<User> searchUser(UserPageDto userPageDto) {
-        return dao.searchUser(userPageDto);
+    public List<User> searchUser(String keyword) {
+        return dao.searchUser(keyword);
     }
 
-    @Override
-    public int flitTotal(UserPageDto userPageDto) {
-        return dao.flitTotal(userPageDto);
-    }
+
 
     @Override
     public BaseResult updateUser(User user) {
@@ -93,6 +80,11 @@ public class UserServiceImpl extends BaseServiceImpl<User,UserDao> implements Us
         } else {
             return baseResult;
         }
+    }
+
+    @Override
+    public User queryByPhone(String phone) {
+        return dao.queryOneByPhone(phone);
     }
 
 

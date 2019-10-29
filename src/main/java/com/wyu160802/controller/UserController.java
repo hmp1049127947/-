@@ -1,8 +1,12 @@
 package com.wyu160802.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.wyu160802.dto.BaseResult;
 import com.wyu160802.dto.PageDto;
+import com.wyu160802.dto.Pager;
 import com.wyu160802.entity.User;
 import com.wyu160802.entity.UserPageDto;
 import com.wyu160802.service.UserService;
@@ -10,8 +14,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -38,34 +44,27 @@ public class UserController {
     }
 
     @ResponseBody
-    @GetMapping(value = "/list", produces = "application/json; charset=utf-8")
-    public String getUsers(int page,int rows) {
-        int leftArg = (page - 1) * rows;
-        List<User> users = userService.page(leftArg,rows);
-        PageDto pageDto = new PageDto();
-        pageDto.setTotal(userService.queryUserTotal());
-        pageDto.setRows(users);
-        String userJson = JSON.toJSONString(pageDto);
-        return userJson;
-
+    @GetMapping(value = "/list")
+    public String list(int page,int rows) {
+        Page<Object> startPage = PageHelper.startPage(page, rows);
+        List<User> userList = userService.getAll();
+        Pager<User> pager = new Pager<>();
+        int total = (int) startPage.getTotal();
+        pager.setTotal(total);
+        pager.setRows(userList);
+        return JSON.toJSONString(pager);
     }
 
     @ResponseBody
-    @GetMapping(value = "search", produces = "application/json; charset=utf-8")
+    @GetMapping(value = "search")
     public String search(int page,int rows,String keyword) {
-
-        int pageNumber = (page - 1) * rows;
-        UserPageDto userPageDto = new UserPageDto();
-        userPageDto.setNumber(keyword);
-        userPageDto.setPhone(keyword);
-        userPageDto.setUsername(keyword);
-        userPageDto.setPageNumber(pageNumber);
-        userPageDto.setRows(rows);
-        List<User> users = userService.searchUser(userPageDto);
-        PageDto pageDto = new PageDto();
-        pageDto.setTotal(userService.flitTotal(userPageDto));
-        pageDto.setRows(users);
-        return JSON.toJSONString(pageDto);
+        Page<Object> startPage = PageHelper.startPage(page, rows);
+        List<User> users = userService.searchUser(keyword);
+        Pager<User> pager = new Pager<>();
+        int total = (int) startPage.getTotal();
+        pager.setTotal(total);
+        pager.setRows(users);
+        return JSON.toJSONString(pager);
     }
 
     @ResponseBody
@@ -142,6 +141,25 @@ public class UserController {
         System.out.println(user);
         BaseResult baseResult = userService.add(user);
         System.out.println(baseResult.toString());
+        return JSON.toJSONString(baseResult);
+    }
+
+    @PostMapping(value = "valid", produces = "application/json; charset=utf-8")
+    @ResponseBody
+    public String valid(String number,String phone) {
+        BaseResult baseResult = null;
+        if (number!=null&&phone==null) {
+           User user = userService.queryByNumber(number);
+            if (user != null) {
+                baseResult = BaseResult.fail("该账号已被注册");
+            }
+        }
+        if (phone!=null&&number==null) {
+           User user = userService.queryByPhone(phone);
+            if (user != null) {
+                baseResult = BaseResult.fail("该手机号已被注册");
+            }
+        }
         return JSON.toJSONString(baseResult);
     }
 }

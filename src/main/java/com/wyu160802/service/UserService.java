@@ -34,20 +34,6 @@ public interface UserService extends BaseService<User> {
      * @return
      */
     BaseResult add(User user);
-
-    /**
-     * 分页获取用户
-     * @param leftArg
-     * @param rightArg
-     * @return
-     */
-    List<User> page(int leftArg, int rightArg);
-
-    /**
-     * 获取总数
-     * @return
-     */
-    int queryUserTotal();
     /**
      * 多项删除
      * @param id
@@ -56,23 +42,23 @@ public interface UserService extends BaseService<User> {
 
     /**
      * 通过关键字搜索
-     * @param userPageDto
+     * @param keyword
      * @return
      */
-    List<User> searchUser(UserPageDto userPageDto);
-    /**
-     * 通过关键字搜索后的数据总数
-     * @param userPageDto
-     * @return
-     */
-    int flitTotal(UserPageDto userPageDto);
-
+    List<User> searchUser(String keyword);
     /**
      * 更新用户
      * @param user
      * @return
      */
     BaseResult updateUser(User user);
+
+    /**
+     * 通过手机号查找
+     * @param phone
+     * @return
+     */
+    User queryByPhone(String phone);
 
 
 }

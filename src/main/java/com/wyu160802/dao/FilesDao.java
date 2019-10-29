@@ -13,17 +13,5 @@ import java.util.List;
 */
 @Mapper
 public interface FilesDao extends BaseDao<Files> {
-    /**
-     * 分页获取
-     * @param page
-     * @param rows
-     * @return
-     */
-    List<Files> filesPage(@Param("page") int page, @Param("rows") int rows);
 
-    /**
-     * 获取总条数
-     * @return
-     */
-    int filesNum();
 }

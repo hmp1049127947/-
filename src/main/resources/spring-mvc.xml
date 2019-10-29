@@ -17,7 +17,53 @@
     </context:component-scan>
 
     <!-- 默认的注解映射的支持 -->
-    <mvc:annotation-driven />
+    <mvc:annotation-driven>
+        <!--不使用默认消息转换器 -->
+        <mvc:message-converters register-defaults="false">
+            <!--spring消息转换器 -->
+            <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+            <bean class="org.springframework.http.converter.BufferedImageHttpMessageConverter"/>
+
+            <!--解决@Responcebody中文乱码问题 -->
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg value="UTF-8"/>
+            </bean>
+            <!--配合fastJson支持 -->
+            <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+                <property name="defaultCharset" value="UTF-8"/>
+                <property name="supportedMediaTypes">
+                    <list>
+                        <!--顺序保持这样,避免IE下载出错 -->
+                        <value>text/html;charset=UTF-8</value>
+                        <value>application/json</value>
+                    </list>
+                </property>
+                <property name="fastJsonConfig" ref="fastJsonConfig"/>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!--fastJsonConfig begin -->
+    <bean id="fastJsonConfig" class="com.alibaba.fastjson.support.config.FastJsonConfig">
+        <!--默认编码格式 -->
+        <property name="charset" value="UTF-8"/>
+
+        <property name="serializerFeatures">
+            <list>
+                <value>WriteNullListAsEmpty</value>
+                <value>WriteDateUseDateFormat</value>
+                <value>PrettyFormat</value>
+                <value>WriteMapNullValue</value>
+                <value>WriteNullStringAsEmpty</value>
+                <value>WriteNullListAsEmpty</value>
+                <value>DisableCircularReferenceDetect</value>
+            </list>
+        </property>
+
+    </bean>
+    <!--fastJsonConfig end -->
+
+
 
     <!-- 定义视图文件解析 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -36,17 +82,17 @@
         <property name="maxUploadSize" value="1000000000" />
     </bean>
 
-    <!--<mvc:interceptors>-->
-        <!--&lt;!&ndash;放行了login，故postInterceptor方法中的modelAndView没有login的view&ndash;&gt;-->
-        <!--<mvc:interceptor>-->
-            <!--<mvc:mapping path="/**"/>-->
-            <!--<mvc:exclude-mapping path="/login"/>-->
-            <!--<mvc:exclude-mapping path="/static/**"/>-->
-            <!--<bean class="com.wyu160802.interceptor.LoginInterceptor"/>-->
-        <!--</mvc:interceptor>-->
-        <!--<mvc:interceptor>-->
-            <!--<mvc:mapping path="/**"/>-->
-            <!--<bean class="com.wyu160802.interceptor.PermissionInterceptor"/>-->
-        <!--</mvc:interceptor>-->
-    <!--</mvc:interceptors>-->
+    <mvc:interceptors>
+        <!--放行了login，故postInterceptor方法中的modelAndView没有login的view-->
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/login"/>
+            <mvc:exclude-mapping path="/static/**"/>
+            <bean class="com.wyu160802.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.wyu160802.interceptor.PermissionInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 </beans>

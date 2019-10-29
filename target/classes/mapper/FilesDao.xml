@@ -76,11 +76,4 @@
       fileName = #{fileName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="filesPage" parameterType="Integer" resultType="com.wyu160802.entity.Files">
-    SELECT * FROM files
-    limit #{page},#{rows}
-  </select>
-  <select id="filesNum" resultType="Integer">
-        SELECT COUNT(*) FROM files
-    </select>
 </mapper>

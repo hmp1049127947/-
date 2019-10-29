@@ -16,13 +16,4 @@ import java.util.List;
 @Service
 public class FilesServiceImpl extends BaseServiceImpl<Files,FilesDao> implements FilesService{
 
-    @Override
-    public List<Files> filesPage(Integer page, Integer rows) {
-        return dao.filesPage(page,rows);
-    }
-
-    @Override
-    public int filesNum() {
-        return dao.filesNum();
-    }
 }

@@ -8,10 +8,7 @@ import com.wyu160802.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,6 +21,12 @@ import java.util.List;
 public class NoticeController extends BaseController<Notice,NoticeService> {
 
 
+    @GetMapping(value = "lists")
+    @ResponseBody
+    @Override
+    public List<Notice> lists() {
+        return service.getAll();
+    }
     /**
      * 公告添加页面
      * @return

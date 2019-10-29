@@ -1,8 +1,12 @@
 package com.wyu160802.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.wyu160802.dto.BaseResult;
+import com.wyu160802.dto.Pager;
 import com.wyu160802.entity.Files;
+import com.wyu160802.entity.User;
 import com.wyu160802.service.FilesService;
 import com.wyu160802.utils.FileDownloadUtil;
 import com.wyu160802.utils.FileUploadUtil;
@@ -52,9 +56,9 @@ public class FilesController {
     @GetMapping (value = "/lists", produces = "application/json; charset=utf-8")
     public String list(@RequestParam(value = "pageNumber",defaultValue = "1") int pageNumber,
                                @RequestParam(value = "pageSize",defaultValue = "6")int pageSize) {
-        int page=(pageNumber - 1) * pageSize;
-        List<Files> files = filesService.filesPage(page,pageSize);
-        return JSON.toJSONString(files);
+        PageHelper.startPage(pageNumber, pageSize);
+        List<Files> filesList = filesService.getAll();
+        return JSON.toJSONString(filesList);
     }
 
     /**
@@ -90,11 +94,10 @@ public class FilesController {
     @GetMapping("downloadLists")
     public String page(@RequestParam(value = "pageNumber",defaultValue = "1") int pageNumber,
                            @RequestParam(value = "pageSize",defaultValue = "6")int pageSize, Model model) {
-        int page=(pageNumber - 1) * pageSize;
-        List<Files> files = filesService.filesPage(page,pageSize);
-        int filesNum = filesService.filesNum();
-        model.addAttribute("total", filesNum);
-        model.addAttribute("files",files);
+        Page<Object> startPage = PageHelper.startPage(pageNumber, pageSize);
+        List<Files> filesList = filesService.getAll();
+        model.addAttribute("total", startPage.getTotal());
+        model.addAttribute("files",filesList);
         model.addAttribute("page", pageNumber);
         return "downloadFile";
     }

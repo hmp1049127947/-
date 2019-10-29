@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.wyu160802.dto.BaseResult;
 import com.wyu160802.entity.Dept;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -27,11 +29,10 @@ public abstract class BaseController<T extends BaseEntity, S extends BaseService
      * 数据列表
      * @return
      */
-    @PostMapping(value = "lists",produces = "application/json; charset=utf-8")
+    @PostMapping(value = "lists")
     @ResponseBody
-    public String lists() {
-        List<T> lists = service.getAll();
-        return JSON.toJSONString(lists);
+    public List<T> lists() {
+        return service.getAll();
     }
 
     @PostMapping(value = "update")
@@ -41,11 +42,10 @@ public abstract class BaseController<T extends BaseEntity, S extends BaseService
     }
 
 
-    @PostMapping("add")
+    @PostMapping(value = "add")
     @ResponseBody
     public BaseResult add(T entity) {
-
-        return  BaseResult.CrudMsg(service.insert(entity), "新增");
+        return BaseResult.CrudMsg(service.insert(entity), "新增");
     }
 
     /**

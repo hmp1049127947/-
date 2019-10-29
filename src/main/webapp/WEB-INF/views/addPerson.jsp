@@ -15,9 +15,9 @@
 				<tr>
 					<td style="width: 80px"></td>
 					<td>账号:</td>
-					<td><input class="easyui-textbox" type="text" id="number" name="number" prompt="请输入账号" data-options="required:true"></input></td>
+					<td><input class="easyui-textbox" type="text" id="number" name="number" prompt="请输入账号" data-options="required:true" ></td>
 					<td>用户名:</td>
-					<td><input class="easyui-textbox" type="text" id="username"  name="username" data-options="required:false"></input></td>
+					<td><input class="easyui-textbox" type="text" id="username"  name="username" data-options="required:false" /></td>
 				</tr>
 	    		<tr>
 					<td style="width: 50px"></td>
@@ -51,7 +51,36 @@
 	    </form>
 	    </div>
 </body>
+
 <script>
+    $(function () {
+        $("input", $("#number").next("span")).blur(function () {
+            var number = $("#number").val();
+            var data={"number": number};
+			$.post("/user/valid",data,function (result) {
+				if (result != null) {
+					//该账号已被注册
+                    $("#number").textbox("setValue", "");
+					$.messager.alert("温馨提示", result.message, "info");
+
+				}
+			},"json");
+        });
+
+        $("input", $("#phone").next("span")).blur(function () {
+            var phone = $("#phone").val();
+            var data={"phone": phone};
+            $.post("/user/valid",data,function (result) {
+                if (result != null) {
+                    //该手机号已被注册
+                    $("#phone").textbox("setValue", "");
+                    $.messager.alert("温馨提示", result.message, "info");
+                }
+            },"json");
+        });
+
+
+    });
     function submitForm(){
         $('#ff').form('submit',{
             url:"/user/add",

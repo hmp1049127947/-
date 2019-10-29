@@ -1,4 +1,6 @@
 package com.wyu160802.utils;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
@@ -28,6 +30,7 @@ import java.util.Set;
  */
 public class BeanValidator {
 
+    @Autowired
     private static Validator validator;
 
     public static void setValidator(Validator validator) {
@@ -131,9 +134,9 @@ public class BeanValidator {
             for (int i = 0; i < list.size(); i++) {
                 String exMsg = list.get(i);
                 if (i != 0) {
-                    sb.append(String.format("%s. %s", i, exMsg)).append(list.size() > 1 ? "<br/>" : "");
+                    sb.append(String.format("%s. %s", i, exMsg)).append(list.size() > 1 ? "。" : "");
                 } else {
-                    sb.append(exMsg).append(list.size() > 1 ? "<br/>" : "");
+                    sb.append(exMsg).append(list.size() > 1 ? "" : "");
                 }
             }
 
